@@ -66,7 +66,7 @@ public class MyBenchmark {
     @Benchmark
     public int runProcess(Commands command) throws InterruptedException, IOException {
         ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command(command.commandList);
+        processBuilder.command(command.commandList).inheritIO();
         Process process = processBuilder.start();
         return process.waitFor();
     }
@@ -90,11 +90,15 @@ public class MyBenchmark {
         CommandLine commandLine = CommandLine.parse(command.cmd);
         DefaultExecutor exec = new DefaultExecutor();
         PumpStreamHandler streamHandler = new PumpStreamHandler(output, error);
-
         exec.setWorkingDirectory(workDir);
         exec.setStreamHandler(streamHandler);
 
-        return exec.execute(commandLine);
+        int exitCode = exec.execute(commandLine);
+
+        streamHandler.stop();
+        output.close();
+        error.close();
+        return exitCode;
     }
 
     @Benchmark
