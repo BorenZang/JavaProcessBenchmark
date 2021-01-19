@@ -72,7 +72,7 @@ public class MyBenchmark {
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.command(command.commandList);
         processBuilder.redirectOutput(NULL_FILE);
-        Process process = processBuilder.inheritIO().start();
+        Process process = processBuilder.start();
 
         return process.waitFor();
     }
