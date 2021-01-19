@@ -5,6 +5,3 @@ dontinline,*.*_ss_jmhStub
 dontinline,*.*_thrpt_jmhStub
 inline,org/benchmark/MyBenchmark$Commands.setup
 inline,org/benchmark/MyBenchmark.apacheProcess
-inline,org/benchmark/MyBenchmark.apacheProcessStd
-inline,org/benchmark/MyBenchmark.runProcess
-inline,org/benchmark/MyBenchmark.runProcessStd
