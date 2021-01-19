@@ -7,9 +7,9 @@ org/benchmark/jmh_generated/MyBenchmark_Commands_jmhType_B3.class
 org/benchmark/MyBenchmark.class
 org/benchmark/jmh_generated/MyBenchmark_jmhType.class
 org/benchmark/jmh_generated/MyBenchmark_Commands_jmhType.class
-org/benchmark/jmh_generated/MyBenchmark_apacheProcess_jmhTest.class
 META-INF/BenchmarkList
 org/benchmark/jmh_generated/MyBenchmark_Commands_jmhType_B2.class
+org/benchmark/jmh_generated/MyBenchmark_runProcess_jmhTest.class
 org/benchmark/BenchmarkRunner.class
 org/benchmark/runProcessBuilder.class
 org/benchmark/jmh_generated/MyBenchmark_Commands_jmhType_B1.class

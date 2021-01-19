@@ -67,15 +67,15 @@ public class MyBenchmark {
             (System.getProperty("os.name")
                     .startsWith("Windows") ? "NUL" : "/dev/null")
     );
-//    @Benchmark
-//    public int runProcess(Commands command) throws InterruptedException, IOException {
-//        ProcessBuilder processBuilder = new ProcessBuilder();
-//        processBuilder.command(command.commandList);
-//        processBuilder.redirectOutput(NULL_FILE);
-//        Process process = processBuilder.inheritIO().start();
-//
-//        return process.waitFor();
-//    }
+    @Benchmark
+    public int runProcess(Commands command) throws InterruptedException, IOException {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        processBuilder.command(command.commandList);
+        processBuilder.redirectOutput(NULL_FILE);
+        Process process = processBuilder.inheritIO().start();
+
+        return process.waitFor();
+    }
 //
 //    @Benchmark
 //    public int runProcessStd(Commands command) throws IOException, InterruptedException {
@@ -107,13 +107,13 @@ public class MyBenchmark {
 //        return exitCode;
 //    }
 
-    @Benchmark
-    public int apacheProcess(Commands command) throws IOException {
-        CommandLine commandLine = CommandLine.parse(command.cmd);
-        DefaultExecutor exec = new DefaultExecutor();
-
-        return exec.execute(commandLine);
-    }
+//    @Benchmark
+//    public int apacheProcess(Commands command) throws IOException {
+//        CommandLine commandLine = CommandLine.parse(command.cmd);
+//        DefaultExecutor exec = new DefaultExecutor();
+//
+//        return exec.execute(commandLine);
+//    }
 
 
 
