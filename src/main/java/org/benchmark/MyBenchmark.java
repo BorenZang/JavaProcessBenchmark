@@ -69,8 +69,8 @@ public class MyBenchmark {
     );
     @Benchmark
     public int runProcess(Commands command) throws InterruptedException, IOException {
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command(command.commandList);
+        ProcessBuilder processBuilder = new ProcessBuilder(command.commandList).inheritIO();
+//        processBuilder.command(command.commandList);
         processBuilder.redirectOutput(NULL_FILE);
         Process process = processBuilder.start();
 
