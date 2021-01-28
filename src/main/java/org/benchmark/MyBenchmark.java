@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.lang.Runtime;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
@@ -49,11 +50,12 @@ import org.apache.commons.exec.PumpStreamHandler;
 @Fork(value = 1, warmups = 2)
 public class MyBenchmark {
 
+
     @State(Scope.Benchmark)
     public static class Commands{
-//        @Param({"ls -a", "pwd", "whoami", "cal 2020", "du",
-//        "cat pom.xml", "echo hello world", "df", "date"})
-        @Param({"https -h google.com"})
+        @Param({"ls -a", "pwd", "whoami", "cal 2020", "du",
+        "cat pom.xml", "echo hello world", "df", "date"})
+//        @Param({"https -h google.com"})
         public String cmd;
 
         public List<String> commandList;
@@ -69,51 +71,49 @@ public class MyBenchmark {
     );
     @Benchmark
     public int runProcess(Commands command) throws InterruptedException, IOException {
-        ProcessBuilder processBuilder = new ProcessBuilder(command.commandList).inheritIO();
-//        processBuilder.command(command.commandList);
-        processBuilder.redirectOutput(NULL_FILE);
+        ProcessBuilder processBuilder = new ProcessBuilder(command.commandList);
         Process process = processBuilder.start();
-
+        process.getOutputStream().close();
         return process.waitFor();
     }
-//
-//    @Benchmark
-//    public int runProcessStd(Commands command) throws IOException, InterruptedException {
-//        ProcessBuilder processBuilder = new ProcessBuilder();
-//        File errorFile = new File("./", "error.txt");
-//        File outputFile = new File("./", "output.txt");
-//        processBuilder.command(command.commandList)
-//                .redirectError(errorFile)
-//                .redirectOutput(outputFile);
-//        Process process = processBuilder.start();
-//        return process.waitFor();
-//    }
-//    @Benchmark
-//    public int apacheProcessStd(Commands command) throws IOException {
-//        OutputStream output = new FileOutputStream("./apache_out.txt");
-//        OutputStream error = new FileOutputStream("./apache_err.txt");
-//        File workDir = new File(System.getProperty("user.dir"));
-//        CommandLine commandLine = CommandLine.parse(command.cmd);
-//        DefaultExecutor exec = new DefaultExecutor();
-//        PumpStreamHandler streamHandler = new PumpStreamHandler(output, error);
-//        exec.setWorkingDirectory(workDir);
-//        exec.setStreamHandler(streamHandler);
-//
-//        int exitCode = exec.execute(commandLine);
-//
-//        streamHandler.stop();
-//        output.close();
-//        error.close();
-//        return exitCode;
-//    }
 
-//    @Benchmark
-//    public int apacheProcess(Commands command) throws IOException {
-//        CommandLine commandLine = CommandLine.parse(command.cmd);
-//        DefaultExecutor exec = new DefaultExecutor();
-//
-//        return exec.execute(commandLine);
-//    }
+    @Benchmark
+    public int runProcessStd(Commands command) throws IOException, InterruptedException {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        File errorFile = new File("./", "error.txt");
+        File outputFile = new File("./", "output.txt");
+        processBuilder.command(command.commandList)
+                .redirectError(errorFile)
+                .redirectOutput(outputFile);
+        Process process = processBuilder.start();
+        return process.waitFor();
+    }
+    @Benchmark
+    public int apacheProcessStd(Commands command) throws IOException {
+        OutputStream output = new FileOutputStream("./apache_out.txt");
+        OutputStream error = new FileOutputStream("./apache_err.txt");
+        File workDir = new File(System.getProperty("user.dir"));
+        CommandLine commandLine = CommandLine.parse(command.cmd);
+        DefaultExecutor exec = new DefaultExecutor();
+        PumpStreamHandler streamHandler = new PumpStreamHandler(output, error);
+        exec.setWorkingDirectory(workDir);
+        exec.setStreamHandler(streamHandler);
+
+        int exitCode = exec.execute(commandLine);
+
+        streamHandler.stop();
+        output.close();
+        error.close();
+        return exitCode;
+    }
+
+    @Benchmark
+    public int apacheProcess(Commands command) throws IOException {
+        CommandLine commandLine = CommandLine.parse(command.cmd);
+        DefaultExecutor exec = new DefaultExecutor();
+
+        return exec.execute(commandLine);
+    }
 
 
 

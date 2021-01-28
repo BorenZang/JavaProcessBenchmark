@@ -1,6 +1,9 @@
 package org.benchmark;
 
 
+//import org.apache.commons.exec.ExecuteStreamHandler;
+//import org.apache.commons.exec.PumpStreamHandler;
+
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
@@ -19,13 +22,24 @@ public class runProcessBuilder {
     );
     public static int runProcess() throws IOException, InterruptedException {
         String cmd = "https -h google.com";
+//        ExecuteStreamHandler streams = new PumpStreamHandler();
+
         List<String> commandList = Arrays.asList(cmd.split(" "));
-        ProcessBuilder pb = new ProcessBuilder(commandList).inheritIO();
-//        pb.redirectOutput(ProcessBuilder.Redirect.DISCARD);
-//        pb.redirectError(ProcessBuilder.Redirect.DISCARD);
-        pb.redirectOutput(NULL_FILE);
+        ProcessBuilder pb = new ProcessBuilder(commandList);
+////        pb.redirectOutput(ProcessBuilder.Redirect.DISCARD);
+////        pb.redirectError(ProcessBuilder.Redirect.DISCARD);
+//        pb.redirectOutput(NULL_FILE);
+
         Process p = pb.start();
-        return p.waitFor();
+
+        p.getOutputStream().close();
+//        p.getInputStream().close();
+//        p.getErrorStream().close();
+        int exitValue = p.waitFor();
+//
+
+        Process pi = Runtime.getRuntime().exec(cmd);
+        return exitValue;
     }
 }
 //public class runProcessBuilder {
