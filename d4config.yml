@@ -10,7 +10,7 @@ build:
           javac -source 1.8 -target 1.8 src/main/java/org/benchmark/runProcessBuilder.java -d bin
 d4tasks: 
 
-  - name: Do_Main
+  - name: Do_Main1
     which_main_class: org/benchmark/runProcessBuilder
     classes: /bin
     exclusions: 
